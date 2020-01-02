@@ -1,0 +1,4 @@
+<resources>
+    <string name="AppNames">CustomBanner</string>
+    <string name="permissionLocation">允许YouTime在使用期间访问位置信息吗？ 请在设置-应用-YouTime-权限设置中开启访问位置权限，帮助你与附近人进行交流</string>
+</resources>

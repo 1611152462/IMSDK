@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">IMSDK</string>
+    <string name="yes">设置</string>
+    <string name="no">取消</string>
+    <string name="returned_from_app_settings_to_activity">
+        Returned from app settings to MainActivity with the following permissions:
+        \n\nCamera: %s
+        \nLocation &amp; Contacts: %s
+        \nSMS: %s
+    </string>
+    <string name="rationale_location_contacts">此应用程序需要访问您的相关权限。</string>
+</resources>
