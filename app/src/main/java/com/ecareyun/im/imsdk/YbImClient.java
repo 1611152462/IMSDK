@@ -60,6 +60,7 @@ public class YbImClient {
     private BaseMessage tempImgMsg;//图片的
     private String msgImgPath = null;
     private BaseMessage tempLocationMsg;//地址
+
     private OSSUploadFileConfig ossUploadFileConfig;
 
     public static YbImClient getInstance(){
