@@ -1,1 +1,1 @@
-include ':app', ':mpush', ':Tools'
+include ':app', ':mpush', ':Tools', ':pushsdk'

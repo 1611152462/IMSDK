@@ -1,14 +1,15 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.greenrobot.greendao'
-
+apply plugin: 'com.github.dcendents.android-maven'
+group='1611152462@qq.com'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.ecareyun.im.imsdk"
+//        applicationId "com.ecareyun.im.imsdk"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
