@@ -46,10 +46,10 @@ import java.util.UUID;
 public class YbImClient {
     private static final String TAG = "lllll";
     private Context mContext;
-    private int selfId = 10002;
-    private String selfName = "夏老二";
-    private int otherId;
-    private String otherName;
+//    private int selfId = 10002;
+//    private String selfName = "夏老二";
+//    private int otherId;
+//    private String otherName;
     private String uniqueId; //唯一识别ID
     private int relationType;
     private static String url;
@@ -79,45 +79,35 @@ public class YbImClient {
     }
 
     //发送消息
-    public  void pushTextMsg(String content,int toId,String toName,OnSendMsgListener listener){
+    public  void pushTextMsg(int selfId,String selfName, String content,int otherId,String otherName,OnSendMsgListener listener){
         this.onSendMsgListener = listener;
-        this.otherId = toId;
-        this.otherName = toName;
         uniqueId = selfId + "and" + otherId;
-        addTextMessage(content,toId,toName);
+        addTextMessage(content,selfId,selfName,otherId,otherName);
     }
     //发送语音
-    public void pushVoiceMsg(String voicePath,int size,int toId,String toName,OnSendMsgListener listener){
+    public void pushVoiceMsg(String voicePath,int size,int selfId,String selfName,int otherId,String otherName,OnSendMsgListener listener){
         this.onSendMsgListener = listener;
-        this.otherId = toId;
-        this.otherName = toName;
         uniqueId = selfId + "and" + otherId;
-        upLoadVoice(voicePath,size);
+        upLoadVoice(voicePath,selfId,selfName,otherId,otherName,size);
     }
     //发送图片
-    public void pushImgMsg(LocalMedia localMedia,int toId,String toName,OnSendMsgListener listener){
+    public void pushImgMsg(LocalMedia localMedia,int selfId,String selfName,int otherId,String otherName,OnSendMsgListener listener){
         this.onSendMsgListener = listener;
-        this.otherId = toId;
-        this.otherName = toName;
         uniqueId = selfId + "and" + otherId;
-        upLoadImage(localMedia);
+        upLoadImage(localMedia,selfId,selfName,otherId,otherName);
     }
 
     //发送名片
-    public void pushCardMsg(String did, String url, String name,int toId,String toName,OnSendMsgListener listener){
+    public void pushCardMsg(String did, String url, String name,int selfId,String selfName,int otherId,String otherName,OnSendMsgListener listener){
         this.onSendMsgListener = listener;
-        this.otherId = toId;
-        this.otherName = toName;
         uniqueId = selfId + "and" + otherId;
-        addCardMessage(did,url,name);
+        addCardMessage(did,url,name,selfId,selfName,otherId,otherName);
     }
     //发送地址
-    public void pushLocationMsg(String filePath, LatLonPoint point, String address,int toId,String toName,OnSendMsgListener listener){
+    public void pushLocationMsg(String filePath, LatLonPoint point, String address,int selfId,String selfName,int otherId,String otherName,OnSendMsgListener listener){
         this.onSendMsgListener = listener;
-        this.otherId = toId;
-        this.otherName = toName;
         uniqueId = selfId + "and" + otherId;
-        addLocationMessage(filePath,point,address);
+        addLocationMessage(filePath,point,address,selfId,selfName,otherId,otherName);
     }
 
     //发送状态接口
@@ -129,20 +119,20 @@ public class YbImClient {
     /**
      * 发送普通文本消息
      * @param content 发送内容
-     * @param toId 对方id
-     * @param toName 对方姓名
+     * @param otherId 对方id
+     * @param otherName 对方姓名
      */
-    public void addTextMessage(String content,int toId,String toName) {
+    public void addTextMessage(String content,int selfId,String selfName,int otherId,String otherName) {
         long timeStame = DateUtils.getTimeStame();
         BaseMessage textMessage = MPushMessageFactory.Factory.buildTextMessage(BaseMessage.C_TYPE_ONLY,
-                selfId, selfName, 1, timeStame, toId, toName, content, 0);
+                selfId, selfName, 1, timeStame, otherId, otherName, content, 0);
         //adapter.addData(textMessage);
         Message msg = new Message();
         msg.what = 1;
         //handler.sendMessage(msg);
         textMessage.setUniqueId(uniqueId);
         DaoUtils.getInstance(App.getMContext()).getMessageManager().insertMessageEntity(BaseMessage.convertMessageEntity(textMessage));
-        sendMessage(textMessage);
+        sendMessage(textMessage,selfId);
         //etContent.setText(null);
     }
 
@@ -150,7 +140,7 @@ public class YbImClient {
      *发送语音
      * @param
      */
-    public void upLoadVoice(String voicePath, int size) {
+    public void upLoadVoice(String voicePath,int selfId,String selfName,int otherId,String otherName, int size) {
         long timeStame = DateUtils.getTimeStame();
         List<UpLoadImgInfo> voice = new ArrayList<>();
 
@@ -191,7 +181,7 @@ public class YbImClient {
             public void onUploadFileSuccess(List<String> voiceUrl) {
                 if (voiceUrl.size() > 0) {
                     String msgVoiceUrl = voiceUrl.get(0);
-                    addVoiceMessage(msgVoiceUrl);
+                    addVoiceMessage(msgVoiceUrl,selfId);
                 }
             }
 
@@ -202,13 +192,13 @@ public class YbImClient {
         });
 
     }
-    public void addVoiceMessage(String voicePath) {
+    public void addVoiceMessage(String voicePath,int selfId) {
         if (tempVoiceMsg != null) {
             MessageExt voiceExt = tempVoiceMsg.getExt();
             voiceExt.url = voicePath;
             tempVoiceMsg.setUniqueId(uniqueId);
             DaoUtils.getInstance(mContext).getMessageManager().insertMessageEntity(BaseMessage.convertMessageEntity(tempVoiceMsg));
-            sendMessage(tempVoiceMsg);
+            sendMessage(tempVoiceMsg,selfId);
         }
     }
 
@@ -216,7 +206,7 @@ public class YbImClient {
      * 发送图片
      * @param localMedia
      */
-    private void upLoadImage(LocalMedia localMedia) {
+    private void upLoadImage(LocalMedia localMedia,int selfId,String selfName,int otherId,String otherName) {
         if (localMedia == null) {
             Toast.makeText(mContext,"图片上传异常",Toast.LENGTH_SHORT).show();
             return;
@@ -251,7 +241,7 @@ public class YbImClient {
             public void onUploadFileSuccess(List<String> imageUrls) {
                 if (imageUrls.size() > 0) {
                     msgImgPath = imageUrls.get(0);
-                    addImageMessage(msgImgPath);
+                    addImageMessage(msgImgPath,selfId);
                 }
             }
 
@@ -261,12 +251,12 @@ public class YbImClient {
             }
         });
     }
-    private void addImageMessage(String httpUrl) {
+    private void addImageMessage(String httpUrl,int selfId) {
         MessageExt imageExt = tempImgMsg.getExt();
         imageExt.url = httpUrl;
         tempImgMsg.setUniqueId(uniqueId);
         DaoUtils.getInstance(mContext).getMessageManager().insertMessageEntity(BaseMessage.convertMessageEntity(tempImgMsg));
-        sendMessage(tempImgMsg);
+        sendMessage(tempImgMsg,selfId);
 
     }
 
@@ -276,7 +266,7 @@ public class YbImClient {
      * @param url 名片头像地址
      * @param name 名片名字
      */
-    private void addCardMessage(String did, String url, String name) {
+    private void addCardMessage(String did, String url, String name,int selfId,String selfName,int otherId,String otherName) {
         long timeStame = DateUtils.getTimeStame();
         MessageExt messageExt = new MessageExt();
         messageExt.id = did;
@@ -298,7 +288,7 @@ public class YbImClient {
 
         cardMsg.setUniqueId(uniqueId);
         DaoUtils.getInstance(mContext).getMessageManager().insertMessageEntity(BaseMessage.convertMessageEntity(cardMsg));
-        sendMessage(cardMsg);
+        sendMessage(cardMsg,selfId);
     }
 
     /**
@@ -307,7 +297,7 @@ public class YbImClient {
      * @param point 经纬度
      * @param address 地址
      */
-    private void addLocationMessage(String filePath, LatLonPoint point, String address) {
+    private void addLocationMessage(String filePath, LatLonPoint point, String address,int selfId,String selfName,int otherId,String otherName) {
         long timeStame = DateUtils.getTimeStame();
         Logger.e("ChatActivity", "===>" + Thread.currentThread().getName());
 
@@ -344,7 +334,7 @@ public class YbImClient {
                     ext.url = imageUrls.get(0);
                     tempLocationMsg.setUniqueId(uniqueId);
                     DaoUtils.getInstance(mContext).getMessageManager().insertMessageEntity(BaseMessage.convertMessageEntity(tempLocationMsg));
-                    sendMessage(tempLocationMsg);
+                    sendMessage(tempLocationMsg,selfId);
                 }
 
             }
@@ -357,7 +347,7 @@ public class YbImClient {
 
     }
     //发送到服务端
-    private void sendMessage(final BaseMessage message) {
+    private void sendMessage(final BaseMessage message,int selfId) {
         if (!MPush.I.hasRunning()) {
             Logger.e("MPushEngine", "MPush.I.hasRunning() : false");
             boolean b = MPush.I.hasStarted();
@@ -376,7 +366,7 @@ public class YbImClient {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
 
-                    sendMsgAgain(message);
+                    sendMsgAgain(message,selfId);
                 }
             }.sendEmptyMessageDelayed(0,2000);
             return;
@@ -431,7 +421,7 @@ public class YbImClient {
 
     }
     //服务器端端断了之后的操作
-    private void sendMsgAgain(final BaseMessage message){
+    private void sendMsgAgain(final BaseMessage message,int selfId){
         if(!MPush.I.hasRunning()){
             DaoUtils.getInstance(App.getMContext()).getMessageManager().updateMessageEntity(message.getId(), message.getId(), BaseMessage.S_TYPE_FAIL);
             message.setsType(BaseMessage.S_TYPE_FAIL);
