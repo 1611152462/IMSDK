@@ -70,11 +70,11 @@ public class YbImClient {
         return ybImClient;
     }
 
-    public void init(Context context, String appKey){
+    public void init(Context context, String token){
         this.mContext = context;
         ossUploadFileConfig = OSSUploadFileConfig.getInstance((Activity) context);
         SharedUtils.putString(context, Global.APP_IMEI, AppUtils.getid(context));
-        SharedUtils.putToken(context,"zs_aca291b62baedb2ce59ca87b7bbe9aaf");
+        SharedUtils.putToken(context,token);
         MPushEngine.getInstance(context).initPush();
     }
 
