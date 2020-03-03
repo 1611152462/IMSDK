@@ -69,22 +69,22 @@ public class MainActivity extends BaseActivity<MainPstImpl> implements MainContr
             }
         });
         Button btn1 = findViewById(R.id.btn_send);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                YbImClient.getInstance().pushTextMsg("测试啊",10005,"栅栏", new YbImClient.OnSendMsgListener() {
-                    @Override
-                    public void sendMsgSuc(BaseMessage message) {
-
-                    }
-
-                    @Override
-                    public void sendMsgError(String errMsg) {
-
-                    }
-                });
-            }
-        });
+//        btn1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                YbImClient.getInstance().pushTextMsg("测试啊",10005,"栅栏", new YbImClient.OnSendMsgListener() {
+//                    @Override
+//                    public void sendMsgSuc(BaseMessage message) {
+//
+//                    }
+//
+//                    @Override
+//                    public void sendMsgError(String errMsg) {
+//
+//                    }
+//                });
+//            }
+//        });
     }
 
     @Override
