@@ -2,75 +2,75 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ecareyun.im.imsdk">
 
-    <!-- 需要运行时注册的权限 -->
-    <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!-- 用于提高GPS定位速度 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <!-- 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- 读取缓存数据 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--&lt;!&ndash; 需要运行时注册的权限 &ndash;&gt;-->
+    <!--&lt;!&ndash; 用于进行网络定位 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+    <!--&lt;!&ndash; 用于访问GPS定位 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+    <!--&lt;!&ndash; 用于提高GPS定位速度 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>-->
+    <!--&lt;!&ndash; 写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+    <!--&lt;!&ndash; 读取缓存数据 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
 
-    <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--&lt;!&ndash; 用于读取手机当前的状态 &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
 
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+    <!--<application-->
+        <!--android:allowBackup="true"-->
+        <!--android:label="@string/app_name"-->
+        <!--android:supportsRtl="true"-->
+        <!--android:theme="@style/AppTheme">-->
 
-        <activity
-            android:name="com.ecareyun.im.MainActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <!--<activity-->
+            <!--android:name="com.ecareyun.im.MainActivity"-->
+            <!--android:screenOrientation="portrait">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
-        <!-- Push IM相关 -->
-        <receiver
-            android:name="com.ecareyun.im.push.MPushReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="com.mpush.HEALTH_CHECK" />
-                <action android:name="com.mpush.NOTIFY_CANCEL" />
-            </intent-filter>
-        </receiver>
+        <!--&lt;!&ndash; Push IM相关 &ndash;&gt;-->
+        <!--<receiver-->
+            <!--android:name="com.ecareyun.im.push.MPushReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+                <!--<action android:name="com.mpush.HEALTH_CHECK" />-->
+                <!--<action android:name="com.mpush.NOTIFY_CANCEL" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
-        <service
-            android:name="com.ecareyun.im.push.MPushService"
-            android:enabled="true"
-            android:exported="true"
-            android:priority="1000" />
-        <service android:name="com.ecareyun.im.push.MPushFakeService" />
+        <!--<service-->
+            <!--android:name="com.ecareyun.im.push.MPushService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true"-->
+            <!--android:priority="1000" />-->
+        <!--<service android:name="com.ecareyun.im.push.MPushFakeService" />-->
 
-        <receiver
-            android:name="com.ecareyun.im.push.MyReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.mpush.MESSAGE_RECEIVED" /> <!-- 收到PUSH消息 -->
-                <action android:name="com.mpush.KICK_USER" /> <!-- 收到踢人消息 -->
-                <action android:name="com.mpush.CONNECTIVITY_CHANGE" /> <!-- 收到链接变化 -->
-                <action android:name="com.mpush.HANDSHAKE_OK" /> <!-- 收到握手成功消息 -->
-                <action android:name="com.mpush.BIND_USER" /> <!-- 收到绑定用户消息 -->
-                <action android:name="com.mpush.UNBIND_USER" /> <!-- 收到解绑用户消息 -->
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+        <!--<receiver-->
+            <!--android:name="com.ecareyun.im.push.MyReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.mpush.MESSAGE_RECEIVED" /> &lt;!&ndash; 收到PUSH消息 &ndash;&gt;-->
+                <!--<action android:name="com.mpush.KICK_USER" /> &lt;!&ndash; 收到踢人消息 &ndash;&gt;-->
+                <!--<action android:name="com.mpush.CONNECTIVITY_CHANGE" /> &lt;!&ndash; 收到链接变化 &ndash;&gt;-->
+                <!--<action android:name="com.mpush.HANDSHAKE_OK" /> &lt;!&ndash; 收到握手成功消息 &ndash;&gt;-->
+                <!--<action android:name="com.mpush.BIND_USER" /> &lt;!&ndash; 收到绑定用户消息 &ndash;&gt;-->
+                <!--<action android:name="com.mpush.UNBIND_USER" /> &lt;!&ndash; 收到解绑用户消息 &ndash;&gt;-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
 
-                <!-- 此值要改为自己的应用的applicationId  @see MPushService -->
-                <category android:name="com.source.im" />
-            </intent-filter>
-        </receiver>
-    </application>
+                <!--&lt;!&ndash; 此值要改为自己的应用的applicationId  @see MPushService &ndash;&gt;-->
+                <!--<category android:name="com.source.im" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+    <!--</application>-->
 
 </manifest>
